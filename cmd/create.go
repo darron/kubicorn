@@ -16,6 +16,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"os/user"
+
 	"github.com/kris-nova/kubicorn/apis/cluster"
 	"github.com/kris-nova/kubicorn/logger"
 	"github.com/kris-nova/kubicorn/namer"
@@ -23,8 +26,6 @@ import (
 	"github.com/kris-nova/kubicorn/state"
 	"github.com/kris-nova/kubicorn/state/fs"
 	"github.com/spf13/cobra"
-	"os"
-	"os/user"
 )
 
 var createCmd = &cobra.Command{
@@ -117,7 +118,7 @@ func RunCreate(options *CreateOptions) error {
 		return fmt.Errorf("Unable to init state store: %v", err)
 	}
 
-	fmt.Printf(options.StateStorePath + "/" + name + "/" + "cluster.yaml has been created.\nNow run `kubicorn apply`.\n")
+	logger.Always("%s/%s/cluster.yaml has been created. Now run `kubicorn apply %s`", options.StateStorePath, name, name)
 	return nil
 }
 
